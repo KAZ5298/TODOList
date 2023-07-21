@@ -8,13 +8,17 @@ require_once('../App/Util/Safety.php');
 unset($_SESSION['post']);
 unset($_SESSION['err_msg']);
 
-$isGetFlg = 0;
-
 if (empty($_SESSION['user'])) {
     header('Location: ../login/index.php');
     exit;
 } else {
     $user = $_SESSION['user'];
+}
+
+if ($user['is_admin'] != 1) {
+    $_SESSION['err_msg'] = '管理者権限がありません';
+    header('Location: ../login/index.php');
+    exit;
 }
 
 $token = Safety::generateToken();
@@ -33,44 +37,6 @@ try {
         $todoItems = $db->getAllItems();
     }
 
-    // ページャー機能
-    // １ページ当たりの表示数
-    define('MAX', '5');
-
-    //データ総数
-    $todoItems_num = count($todoItems);
-
-    // トータルページ数
-    $max_page = ceil($todoItems_num / MAX);
-
-    // 現在ページ番号
-    if (!isset($_GET['page_id'])) {
-        $now_page = 1;
-    } else {
-        $now_page = $_GET['page_id'];
-    }
-
-    // ページ番号
-    if ($now_page == 1 || $now_page == $max_page) {
-        $range = 4;
-    } elseif ($now_page == 2 || $now_page == $max_page - 1) {
-        $range = 3;
-    } else {
-        $range = 2;
-    }
-
-    // 件数表示用
-    $from_record = ($now_page - 1) * MAX + 1;
-    if ($now_page == $max_page && $todoItems_num % MAX !== 0) {
-        $to_record = ($now_page - 1) * MAX + $todoItems_num % MAX;
-    } else {
-        $to_record = $now_page * MAX;
-    }
-
-    // 配列の取得位置
-    $start_no = ($now_page - 1) * MAX;
-
-    $rec = array_slice($todoItems, $start_no, MAX, true);
 } catch (Exception $e) {
     header('Location: ../error/error.php');
     exit;
@@ -86,7 +52,7 @@ try {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <meta http-equiv="content-type" content="text/html; charset=utf-8">
-    <title>作業一覧</title>
+    <title>担当者一覧</title>
     <link rel="stylesheet" href="../css/bootstrap.min.css">
     <style>
         /* ボタンを横並びにする */
@@ -117,10 +83,10 @@ try {
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav mr-auto">
                 <li class="nav-item active">
-                    <a class="nav-link" href="./">作業一覧 <span class="sr-only">(current)</span></a>
+                    <a class="nav-link" href="./">ユーザー一覧 <span class="sr-only">(current)</span></a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="./entry.php">作業登録</a>
+                    <a class="nav-link" href="./entry.php">ユーザー登録</a>
                 </li>
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -133,20 +99,16 @@ try {
                     </div>
                 </li>
             </ul>
-            <form class="form-inline my-2 my-lg-0" action="./" method="get">
+            <!-- <form class="form-inline my-2 my-lg-0" action="./" method="get">
                 <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" name="search" value="">
                 <button class="btn btn-outline-light my-2 my-sm-0" type="submit">検索</button>
-            </form>
+            </form> -->
         </div>
     </nav>
     <!-- ナビゲーション ここまで -->
 
     <!-- コンテナ -->
     <div class="container">
-
-        <?php if ($isGetFlg == 1) : ?>
-            <label>検索対象：【項目名】【担当者】　検索内容：<?= $_GET['search'] ?></label>
-        <?php endif ?>
 
         <table class="table table-striped table-hover table-sm my-2">
             <thead>
@@ -209,49 +171,7 @@ try {
             </tbody>
         </table>
 
-        <!-- 件数表示 -->
-        <p class="from_to"><?= $todoItems_num ?> 件中 <?= $from_record ?> - <?= $to_record ?> 件目を表示</p>
-
-        <div class="pagination">
-            <!-- 戻る -->
-            <?php if ($now_page >= 2) : ?>
-                <a href="./?page_id=<?= $now_page - 1 ?>" class="page_feed">&laquo;</a>
-            <?php else : ?>
-                <span class="first_last_page">&laquo;</span>
-            <?php endif ?>
-
-            <!-- ページ表示 -->
-            <?php for ($i = 1; $i <= $max_page; $i++) : ?>
-                <?php if ($i >= $now_page - $range && $i <= $now_page + $range) : ?>
-                    <?php if ($i == $now_page) : ?>
-                        <span class="now_page_number"><?= $i ?></span>
-                    <?php else : ?>
-                        <a href="./?page_id=<?= $i ?>" class="page_number"><?= $i ?></a>
-                    <?php endif ?>
-                <?php endif ?>
-            <?php endfor ?>
-
-            <!-- 進む -->
-            <?php if ($now_page < $max_page) : ?>
-                <a href="./?page_id=<?= $now_page + 1 ?>" class="page_feed">&raquo;</a>
-            <?php else : ?>
-                <span class="first_last_page">&raquo;</span>
-            <?php endif ?>
-
         </div>
-
-        <!-- 検索のとき、戻るボタンを表示する -->
-        <?php if ($isGetFlg == 1) : ?>
-            <div class="row">
-                <div class="col">
-                    <form>
-                        <div class="goback">
-                            <input class="btn btn-primary my-0" type="button" value="戻る" onclick="location.href='./';">
-                        </div>
-                    </form>
-                </div>
-            </div>
-        <?php endif ?>
 
     </div>
     <!-- コンテナ ここまで -->
