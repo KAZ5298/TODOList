@@ -35,7 +35,7 @@ try {
 
     // ページャー機能
     // １ページ当たりの表示数
-    define('MAX', '10');
+    define('MAX', '5');
 
     //データ総数
     $todoItems_num = count($todoItems);
@@ -57,6 +57,14 @@ try {
         $range = 3;
     } else {
         $range = 2;
+    }
+
+    // 件数表示用
+    $from_record = ($now_page -1) * MAX + 1;
+    if ($now_page == $max_page && $todoItems_num % MAX !== 0) {
+        $to_record = ($now_page -1) * MAX + $todoItems_num % MAX;
+    } else {
+        $to_record = $now_page * MAX;
     }
 
     // 配列の取得位置
@@ -200,6 +208,9 @@ try {
             </tbody>
         </table>
 
+        <!-- 件数表示 -->
+        <p class="from_to"><?= $todoItems_num ?> 件中 <?= $from_record ?> - <?= $to_record ?> 件目を表示</p>
+        
         <div class="pagination">
             <!-- 戻る -->
             <?php if ($now_page >= 2) : ?>
