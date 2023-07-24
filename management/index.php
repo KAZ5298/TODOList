@@ -128,16 +128,14 @@ try {
                         <td class="align-middle">
                             <?= $value['is_deleted'] ?> </td>
                         <td class="align-middle button">
-                            <form action="./complete.php" method="post" class="my-sm-1">
-                                <input type="hidden" name="token" value="<?= $token ?>">
-                                <button class="btn btn-primary my-0" type="submit" name="action" value="complete">完了</button>
-                            </form>
                             <form action="./edit.php" method="post" class="my-sm-1">
                                 <input type="hidden" name="token" value="<?= $token ?>">
+                                <input type="hidden" name="user_id" value="<?= $value['id'] ?>">
                                 <input class="btn btn-primary my-0" type="submit" value="修正">
                             </form>
                             <form action="./delete.php" method="post" class="my-sm-1">
                                 <input type="hidden" name="token" value="<?= $token ?>">
+                                <input type="hidden" name="user_id" value="<?= $value['id'] ?>">
                                 <input class="btn btn-primary my-0" type="submit" value="削除">
                             </form>
                         </td>

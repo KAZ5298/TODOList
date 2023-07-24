@@ -23,4 +23,13 @@ class Users extends Base
         $stmt->execute();
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
+
+    public function selectUser($user_id)
+    {
+        $sql = 'SELECT * FROM users WHERE id=:id;';
+        $stmt = $this->dbh->prepare($sql);
+        $stmt->bindValue(':id', $user_id, PDO::PARAM_STR);
+        $stmt->execute();
+        return $stmt->fetch(PDO::FETCH_ASSOC);
+    }
 }
