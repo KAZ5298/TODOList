@@ -13,14 +13,6 @@ if (empty($_SESSION['user'])) {
 
 $token = Safety::generateToken();
 
-// try {
-//     $db = new Users();
-//     $users = $db->selectUser($post['user_id']);
-// } catch (Exception $e) {
-//     header('Location: ../error/error.php');
-//     exit;
-// }
-
 ?>
 
 <!DOCTYPE html>
@@ -121,10 +113,10 @@ $token = Safety::generateToken();
                         <label for="finished">なし</label>
                     </div>
                     <div class="form-group">
-                        <input type="checkbox" class="form-check-input" id="is_deleted" name="is_deleted" value="">
+                        <input type="checkbox" class="form-check-input" id="is_deleted" name="is_deleted">
                         <label for="finished">削除フラグ</label>
                     </div>
-                    <button class="btn btn-primary" type="submit" name="action" value="entry">更新</button>
+                    <button class="btn btn-primary" type="submit" name="action" value="entry">登録</button>
                     <input type="button" value="キャンセル" class="btn btn-outline-primary" onclick="location.href='./';">
                 </form>
             </div>
