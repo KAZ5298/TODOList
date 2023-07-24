@@ -23,6 +23,8 @@ if (empty($_SESSION['user'])) {
     $user = $_SESSION['user'];
 }
 
+$_SESSION['action'] = $post['action'];
+
 try {
     // 現在日付取得
     $db = new Common();
@@ -30,22 +32,17 @@ try {
 
     // バリデーションチェック
 
-    if (empty($post['user_id'])) {
-        $_SESSION['err_msg'] = '担当者を選択してください。';
-        if ($post['action'] == 'entry') {
-            header('Location: ./entry.php');
-            exit;
-        } elseif ($post['action'] == 'edit') {
-            header('Location: ./edit.php');
-            exit;
-        }
-    }
-
-    // if (!Validation::userNullCheck($post['user_id'])) {
+    // if (empty($post['user_id'])) {
     //     $_SESSION['err_msg'] = '担当者を選択してください。';
-    //     header('Location: ./entry.php');
+    //     header('Location:' . $_SERVER['HTTP_REFERER']);
     //     exit;
     // }
+
+    if (!Validation::userNullCheck($post['user_id'])) {
+        $_SESSION['err_msg'] = '担当者を選択してください。';
+        header('Location:' . $_SERVER['HTTP_REFERER']);
+        exit;
+    }
 
     // if (!Validation::itemNullCheck($post['item_name'])) {
     //     $_SESSION['err_msg'] = '項目名が空白です。';
@@ -58,7 +55,24 @@ try {
     //     }
     // }
 
-    // if (!Validation::lengthCheck($post['item_name'])) {
+    if (!Validation::stringLengthCheck($post['item_name'])) {
+        $_SESSION['err_msg'] = '項目名は１００文字以下で登録してください。';
+        header('Location:' . $_SERVER['HTTP_REFERER']);
+        exit;
+    }
+
+    // if (empty($post['item_name'])) {
+    //     $_SESSION['err_msg'] = '項目名が空白です。';
+    //     if ($post['action'] == 'entry') {
+    //         header('Location: ./entry.php');
+    //         exit;
+    //     } elseif ($post['action'] == 'edit') {
+    //         header('Location: ./edit.php');
+    //         exit;
+    //     }
+    // }
+
+    // if (strlen($post['item_name']) > 100) {
     //     $_SESSION['err_msg'] = '項目名は１００文字以下で登録してください。';
     //     if ($post['action'] == 'entry') {
     //         header('Location: ./entry.php');
@@ -69,30 +83,9 @@ try {
     //     }
     // }
 
-    if (empty($post['item_name'])) {
-        $_SESSION['err_msg'] = '項目名が空白です。';
-        if ($post['action'] == 'entry') {
-            header('Location: ./entry.php');
-            exit;
-        } elseif ($post['action'] == 'edit') {
-            header('Location: ./edit.php');
-            exit;
-        }
-    }
-
-    if (strlen($post['item_name']) > 100) {
-        $_SESSION['err_msg'] = '項目名は１００文字以下で登録してください。';
-        if ($post['action'] == 'entry') {
-            header('Location: ./entry.php');
-            exit;
-        } elseif ($post['action'] == 'edit') {
-            header('Location: ./edit.php');
-            exit;
-        }
-    }
-
     // 登録・修正・完了・削除
     switch ($post['action']) {
+        // 登録
         case 'entry':
             if (isset($post['finished'])) {
                 $finished_date = $dt;
@@ -105,7 +98,7 @@ try {
 
             header('Location: ./index.php');
             exit;
-
+        // 修正
         case 'edit':
             if (isset($post['finished'])) {
                 $finished_date = $dt;
@@ -118,14 +111,14 @@ try {
 
             header('Location: ./index.php');
             exit;
-
+        // 削除
         case 'delete':
             $db = new TodoItems();
             $db->deleteTodoItem($post['item_id']);
 
             header('Location: ./index.php');
             exit;
-
+        // 完了
         case 'complete':
             $db = new TodoItems();
             $db->todoItemIsComplete($dt, $post['item_id']);
