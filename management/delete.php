@@ -4,6 +4,8 @@ require_once('../App/Model/Base.php');
 require_once('../App/Model/Users.php');
 require_once('../App/Util/Safety.php');
 
+unset($_SESSION['err_msg']);
+
 $post = Safety::sanitize($_POST);
 
 if (!isset($post['token']) || !Safety::isValidToken($post['token'])) {
@@ -39,7 +41,7 @@ try {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <meta http-equiv="content-type" content="text/html; charset=utf-8">
-    <title>ユーザー情報修正</title>
+    <title>削除確認</title>
     <link rel="stylesheet" href="../css/bootstrap.min.css">
 </head>
 
@@ -82,60 +84,33 @@ try {
         <div class="row my-2">
             <div class="col-sm-3"></div>
             <div class="col-sm-6 alert alert-info">
-                ユーザー情報を修正してください
+                以下のユーザーを削除します。よろしいですか？
             </div>
             <div class="col-sm-3"></div>
         </div>
-
-        <!-- エラーメッセージ -->
-        <?php if (isset($_SESSION['err_msg'])) : ?>
-            <div class="row my-2">
-                <div class="col-sm-3"></div>
-                <div class="col-sm-6 alert alert-danger alert-dismissble fade show">
-                    <?= $_SESSION['err_msg'] ?> <button class="close" data-dismiss="alert">&times;</button>
-                </div>
-                <div class="col-sm-3"></div>
-            </div>
-        <?php endif ?>
-        <!-- エラーメッセージ ここまで -->
 
         <!-- 入力フォーム -->
         <div class="row my-2">
             <div class="col-sm-3"></div>
             <div class="col-sm-6">
-                <form action="./action.php" method="post">
+                <form action="./delete_action.php" method="post">
                     <input type="hidden" name="token" value="<?= $token ?>">
                     <div class="form-group">
                         <input type="hidden" name="user_id" id="user_id" class="form-control" value="<?= $_POST['user_id'] ?>">
                     </div>
                     <div class="form-group">
-                        <label for="item_name">ログインユーザー名</label>
-                        <input type="text" name="login_user" id="login_user" class="form-control" value="<?= $users['user'] ?>">
+                        <label for="login_user">ログインユーザー名</label>
+                        <p name="login_user" id="login_user" class="form-control"><?= $users['user'] ?></p>
                     </div>
                     <div class="form-group">
-                        <label for="item_name">パスワード</label>
-                        <input type="text" name="pass" id="pass" class="form-control" value="<?= $users['pass'] ?>">
+                        <label for="family_name">ユーザー姓</label>
+                        <p name="family_name" id="family_name" class="form-control"><?= $users['family_name'] ?></p>
                     </div>
                     <div class="form-group">
-                        <label for="item_name">ユーザー姓</label>
-                        <input type="text" name="family_name" id="family_name" class="form-control" value="<?= $users['family_name'] ?>">
+                        <label for="first_name">ユーザー名</label>
+                        <p name="first_name" id="first_name" class="form-control"><?= $users['first_name'] ?></p>
                     </div>
-                    <div class="form-group">
-                        <label for="item_name">ユーザー名</label>
-                        <input type="text" name="first_name" id="first_name" class="form-control" value="<?= $users['first_name'] ?>">
-                    </div>
-                    <div class="form-group">
-                        <label for="item_name">管理者権限</label>
-                        <input type="radio" name="is_admin" id="is_admin" class="form-control" value="<?= $users['is_admin'] ?>" <?php if($users['is_admin'] == 1) echo 'checked' ?>>
-                        <label for="finished">あり</label>
-                        <input type="radio" name="is_admin" id="is_admin" class="form-control" value="<?= $users['is_admin'] ?>" <?php if($users['is_admin'] == 0) echo 'checked' ?>>
-                        <label for="finished">なし</label>
-                    </div>
-                    <div class="form-group">
-                        <input type="checkbox" class="form-check-input" id="is_deleted" name="is_deleted" value="<?php if ($users['is_deleted'] == 0) echo '0' ?>" <?php if ($users['is_deleted'] == 1) echo 'checked' ?>>
-                        <label for="finished">削除フラグ</label>
-                    </div>
-                    <button class="btn btn-primary" type="submit" name="action" value="edit">更新</button>
+                    <button class="btn btn-danger" type="submit" name="action" value="delete">削除</button>
                     <input type="button" value="キャンセル" class="btn btn-outline-primary" onclick="location.href='./';">
                 </form>
             </div>

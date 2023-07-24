@@ -93,7 +93,7 @@ try {
         <div class="row my-2">
             <div class="col-sm-3"></div>
             <div class="col-sm-6">
-                <form action="./delete_action.php" method="post">
+                <form action="./action.php" method="post">
                     <input type="hidden" name="token" value="<?= $token ?>">
                     <div class="form-group">
                         <input type="hidden" name="item_id" id="item_id" class="form-control" value="<?= $_POST['item_id'] ?>">
