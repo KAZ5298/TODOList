@@ -89,7 +89,6 @@ try {
                     </a>
                     <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                         <div class="dropdown-divider"></div>
-                        <a class="dropdown-item" href="../management/index.php">ユーザー管理</a>
                         <a class="dropdown-item" href="../login/logout.php">ログアウト</a>
                     </div>
                 </li>
