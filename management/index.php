@@ -1,7 +1,7 @@
 <?php
 
 require_once('../App/Model/Base.php');
-require_once('../App/Model/TodoItems.php');
+require_once('../App/Model/Users.php');
 require_once('../App/Util/Common.php');
 require_once('../App/Util/Safety.php');
 
@@ -9,7 +9,7 @@ unset($_SESSION['post']);
 unset($_SESSION['err_msg']);
 
 if (empty($_SESSION['user'])) {
-    header('Location: ../login/index.php');
+    header('Location: ../login/');
     exit;
 } else {
     $user = $_SESSION['user'];
@@ -17,26 +17,17 @@ if (empty($_SESSION['user'])) {
 
 if ($user['is_admin'] != 1) {
     $_SESSION['err_msg'] = '管理者権限がありません';
-    header('Location: ../login/index.php');
+    unset($_SESSION['user']);
+    unset($_SESSION['post']);
+    header('Location: ../login/');
     exit;
 }
 
 $token = Safety::generateToken();
 
 try {
-    $db = new Common();
-    $dt = $db->getDate();
-
-    if (isset($_GET['search'])) {
-        $get = Safety::sanitize($_GET);
-        $db = new TodoItems();
-        $todoItems = $db->searchItems($get['search']);
-        $isGetFlg = 1;
-    } else {
-        $db = new TodoItems();
-        $todoItems = $db->getAllItems();
-    }
-
+    $db = new Users();
+    $users = $db->getAllUsers();
 } catch (Exception $e) {
     header('Location: ../error/error.php');
     exit;
@@ -83,6 +74,10 @@ try {
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav mr-auto">
                 <li class="nav-item active">
+                    <a class="nav-link" href="../todo/">作業一覧</a>
+                </li>
+                <li class="nav-item">
+                <li class="nav-item active">
                     <a class="nav-link" href="./">ユーザー一覧 <span class="sr-only">(current)</span></a>
                 </li>
                 <li class="nav-item">
@@ -99,10 +94,6 @@ try {
                     </div>
                 </li>
             </ul>
-            <!-- <form class="form-inline my-2 my-lg-0" action="./" method="get">
-                <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" name="search" value="">
-                <button class="btn btn-outline-light my-2 my-sm-0" type="submit">検索</button>
-            </form> -->
         </div>
     </nav>
     <!-- ナビゲーション ここまで -->
@@ -113,56 +104,40 @@ try {
         <table class="table table-striped table-hover table-sm my-2">
             <thead>
                 <tr>
-                    <th scope="col">項目名</th>
-                    <th scope="col">担当者</th>
-                    <th scope="col">登録日</th>
-                    <th scope="col">期限日</th>
-                    <th scope="col">完了日</th>
+                    <th scope="col">ログインユーザー名</th>
+                    <th scope="col">ユーザー姓</th>
+                    <th scope="col">ユーザー名</th>
+                    <th scope="col">管理者権限</th>
+                    <th scope="col">削除フラグ</th>
                     <th scope="col">操作</th>
                 </tr>
             </thead>
 
             <tbody>
-                <?php foreach ($rec as $value) : ?>
-                    <?php if (isset($value['finished_date'])) {
-                        $class = 'del';
-                    } elseif ($dt > $value['expire_date']) {
-                        $class = 'text-danger';
-                    } else {
-                        $class = '';
-                    }
-                    ?>
-                    <tr class="<?= $class ?>">
+                <?php foreach ($users as $value) : ?>
+                    <tr>
                         <td class="align-middle">
-                            <?= $value['item_name'] ?>
+                            <?= $value['user'] ?>
                         </td>
                         <td class="align-middle">
-                            <?= $value['family_name'] . $value['first_name'] ?> </td>
+                            <?= $value['family_name'] ?> </td>
                         <td class="align-middle">
-                            <?= $value['registration_date'] ?> </td>
+                            <?= $value['first_name'] ?> </td>
                         <td class="align-middle">
-                            <?= $value['expire_date'] ?> </td>
+                            <?= $value['is_admin'] ?> </td>
                         <td class="align-middle">
-                            <?php if (isset($value['finished_date'])) {
-                                echo $value['finished_date'];
-                            } else {
-                                echo '未';
-                            }
-                            ?>
+                            <?= $value['is_deleted'] ?> </td>
                         <td class="align-middle button">
                             <form action="./complete.php" method="post" class="my-sm-1">
                                 <input type="hidden" name="token" value="<?= $token ?>">
-                                <input type="hidden" name="item_id" value="<?= $value['todo_id'] ?>">
                                 <button class="btn btn-primary my-0" type="submit" name="action" value="complete">完了</button>
                             </form>
                             <form action="./edit.php" method="post" class="my-sm-1">
                                 <input type="hidden" name="token" value="<?= $token ?>">
-                                <input type="hidden" name="item_id" value="<?= $value['todo_id'] ?>">
                                 <input class="btn btn-primary my-0" type="submit" value="修正">
                             </form>
                             <form action="./delete.php" method="post" class="my-sm-1">
                                 <input type="hidden" name="token" value="<?= $token ?>">
-                                <input type="hidden" name="item_id" value="<?= $value['todo_id'] ?>">
                                 <input class="btn btn-primary my-0" type="submit" value="削除">
                             </form>
                         </td>
@@ -171,7 +146,7 @@ try {
             </tbody>
         </table>
 
-        </div>
+    </div>
 
     </div>
     <!-- コンテナ ここまで -->

@@ -122,13 +122,17 @@ try {
                 <li class="nav-item">
                     <a class="nav-link" href="./entry.php">作業登録</a>
                 </li>
+                <?php if ($user['is_admin'] != 0) : ?>
+                    <li class="nav-item">
+                        <a class="nav-link" href="../management/index.php">ユーザー管理</a>
+                    </li>
+                <?php endif ?>
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         <?= $user['family_name'] . $user['first_name'] . 'さん' ?>
                     </a>
                     <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                         <div class="dropdown-divider"></div>
-                        <a class="dropdown-item" href="../management/index.php">ユーザー管理</a>
                         <a class="dropdown-item" href="../login/logout.php">ログアウト</a>
                     </div>
                 </li>

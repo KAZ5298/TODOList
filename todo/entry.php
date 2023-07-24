@@ -55,9 +55,14 @@ try {
                 <li class="nav-item active">
                     <a class="nav-link" href="./entry.php">作業登録 <span class="sr-only">(current)</span></a>
                 </li>
+                <?php if ($user['is_admin'] != 0) : ?>
+                    <li class="nav-item">
+                        <a class="nav-link" href="../management/index.php">ユーザー管理</a>
+                    </li>
+                <?php endif ?>
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    <?= $user['family_name'] . $user['first_name'] . 'さん' ?>
+                        <?= $user['family_name'] . $user['first_name'] . 'さん' ?>
                     </a>
                     <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                         <div class="dropdown-divider"></div>
@@ -111,7 +116,9 @@ try {
                             <select name="user_id" id="user_id" class="form-control">
                                 <option value="">--選択してください--</option>
                                 <?php foreach ($users as $value) : ?>
-                                    <option value="<?= $value['id'] ?>" <?php if ($value['id'] == $user['id']) echo 'selected' ?>><?= $value['family_name'] . $value['first_name'] ?></option>
+                                    <?php if ($value['is_deleted'] != 1) : ?>
+                                        <option value="<?= $value['id'] ?>" <?php if ($value['id'] == $user['id']) echo 'selected' ?>><?= $value['family_name'] . $value['first_name'] ?></option>
+                                    <?php endif ?>
                                 <?php endforeach ?>
                             </select>
                         </div>

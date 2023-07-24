@@ -121,7 +121,9 @@ try {
                         <select name="user_id" id="user_id" class="form-control">
                             <option value="" <?php if (!isset($todoItem['user_id'])) echo 'selected' ?>>--選択してください--</option>
                             <?php foreach ($users as $value) : ?>
-                                <option value="<?= $value['id'] ?>" <?php if (($value['id'] == $todoItem['user_id'])) echo 'selected' ?>><?= $value['family_name'] . $value['first_name'] ?></option>
+                                <?php if ($value['is_deleted'] != 1) : ?>
+                                    <option value="<?= $value['id'] ?>" <?php if (($value['id'] == $todoItem['user_id'])) echo 'selected' ?>><?= $value['family_name'] . $value['first_name'] ?></option>
+                                <?php endif ?>
                             <?php endforeach ?>
                         </select>
                     </div>

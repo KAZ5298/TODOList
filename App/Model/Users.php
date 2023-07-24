@@ -9,7 +9,7 @@ class Users extends Base
 
     public function getAllUsers()
     {
-        $sql = 'SELECT * FROM users WHERE is_deleted=0;';
+        $sql = 'SELECT * FROM users;';
         $stmt = $this->dbh->prepare($sql);
         $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
