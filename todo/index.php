@@ -110,7 +110,8 @@ try {
     <!-- ナビゲーション -->
     <nav class="navbar navbar-expand-md navbar-dark bg-primary">
         <span class="navbar-brand">TODOリスト</span>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
 
@@ -122,13 +123,14 @@ try {
                 <li class="nav-item">
                     <a class="nav-link" href="./entry.php">作業登録</a>
                 </li>
-                <?php if ($user['is_admin'] != 0) : ?>
+                <?php if ($user['is_admin'] != 0): ?>
                     <li class="nav-item">
                         <a class="nav-link" href="../management/index.php">ユーザー管理</a>
                     </li>
                 <?php endif ?>
                 <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         <?= $user['family_name'] . $user['first_name'] . 'さん' ?>
                     </a>
                     <div class="dropdown-menu" aria-labelledby="navbarDropdown">
@@ -138,7 +140,8 @@ try {
                 </li>
             </ul>
             <form class="form-inline my-2 my-lg-0" action="./" method="get">
-                <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" name="search" value="">
+                <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" name="search"
+                    value="">
                 <button class="btn btn-outline-light my-2 my-sm-0" type="submit">検索</button>
             </form>
         </div>
@@ -148,8 +151,10 @@ try {
     <!-- コンテナ -->
     <div class="container">
 
-        <?php if ($isGetFlg == 1) : ?>
-            <label>検索対象：【項目名】【担当者】　検索内容：<?= $_GET['search'] ?></label>
+        <?php if ($isGetFlg == 1): ?>
+            <label>検索対象：【項目名】【担当者】　検索内容：
+                <?= $_GET['search'] ?>
+            </label>
         <?php endif ?>
 
         <table class="table table-striped table-hover table-sm my-2">
@@ -165,7 +170,7 @@ try {
             </thead>
 
             <tbody>
-                <?php foreach ($rec as $value) : ?>
+                <?php foreach ($rec as $value): ?>
                     <?php if (isset($value['finished_date'])) {
                         $class = 'del';
                     } elseif ($dt > $value['expire_date']) {
@@ -179,23 +184,26 @@ try {
                             <?= $value['item_name'] ?>
                         </td>
                         <td class="align-middle">
-                            <?= $value['family_name'] . $value['first_name'] ?> </td>
+                            <?= $value['family_name'] . $value['first_name'] ?>
+                        </td>
                         <td class="align-middle">
-                            <?= $value['registration_date'] ?> </td>
+                            <?= $value['registration_date'] ?>
+                        </td>
                         <td class="align-middle">
-                            <?= $value['expire_date'] ?> </td>
+                            <?= $value['expire_date'] ?>
+                        </td>
                         <td class="align-middle">
-                            <?php if (isset($value['finished_date'])) {
-                                echo $value['finished_date'];
-                            } else {
-                                echo '未';
-                            }
-                            ?>
+                            <?php if (isset($value['finished_date'])): ?>
+                                <?= $value['finished_date'] ?>
+                            <?php else: ?>
+                                未
+                            <?php endif ?>
                         <td class="align-middle button">
                             <form action="./complete.php" method="post" class="my-sm-1">
                                 <input type="hidden" name="token" value="<?= $token ?>">
                                 <input type="hidden" name="item_id" value="<?= $value['todo_id'] ?>">
-                                <button class="btn btn-primary my-0" type="submit" name="action" value="complete">完了</button>
+                                <button class="btn btn-primary my-0" type="submit" name="action"
+                                    value="complete">完了</button>
                             </form>
                             <form action="./edit.php" method="post" class="my-sm-1">
                                 <input type="hidden" name="token" value="<?= $token ?>">
@@ -214,38 +222,44 @@ try {
         </table>
 
         <!-- 件数表示 -->
-        <p class="from_to"><?= $todoItems_num ?> 件中 <?= $from_record ?> - <?= $to_record ?> 件目を表示</p>
+        <p class="from_to">
+            <?= $todoItems_num ?> 件中
+            <?= $from_record ?> -
+            <?= $to_record ?> 件目を表示
+        </p>
 
         <div class="pagination">
             <!-- 戻る -->
-            <?php if ($now_page >= 2) : ?>
+            <?php if ($now_page >= 2): ?>
                 <a href="./?page_id=<?= $now_page - 1 ?>" class="page_feed">&laquo;</a>
-            <?php else : ?>
+            <?php else: ?>
                 <span class="first_last_page">&laquo;</span>
             <?php endif ?>
 
             <!-- ページ表示 -->
-            <?php for ($i = 1; $i <= $max_page; $i++) : ?>
-                <?php if ($i >= $now_page - $range && $i <= $now_page + $range) : ?>
-                    <?php if ($i == $now_page) : ?>
-                        <span class="now_page_number"><?= $i ?></span>
-                    <?php else : ?>
+            <?php for ($i = 1; $i <= $max_page; $i++): ?>
+                <?php if ($i >= $now_page - $range && $i <= $now_page + $range): ?>
+                    <?php if ($i == $now_page): ?>
+                        <span class="now_page_number">
+                            <?= $i ?>
+                        </span>
+                    <?php else: ?>
                         <a href="./?page_id=<?= $i ?>" class="page_number"><?= $i ?></a>
                     <?php endif ?>
                 <?php endif ?>
             <?php endfor ?>
 
             <!-- 進む -->
-            <?php if ($now_page < $max_page) : ?>
+            <?php if ($now_page < $max_page): ?>
                 <a href="./?page_id=<?= $now_page + 1 ?>" class="page_feed">&raquo;</a>
-            <?php else : ?>
+            <?php else: ?>
                 <span class="first_last_page">&raquo;</span>
             <?php endif ?>
 
         </div>
 
         <!-- 検索のとき、戻るボタンを表示する -->
-        <?php if ($isGetFlg == 1) : ?>
+        <?php if ($isGetFlg == 1): ?>
             <div class="row">
                 <div class="col">
                     <form>

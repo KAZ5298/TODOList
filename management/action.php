@@ -108,28 +108,11 @@ try {
 
         header('Location: ./index.php');
         exit;
+    } else {
+        header('Location: ./index.php');
+        exit;
     }
 
-    //     $db = new Users();
-    //     $db->editTodoItem($post['item_id'], $post['user_id'], $post['item_name'], $post['expire_date'], $finished_date);
-    //     $_SESSION['postkakunin'] = $post;
-    //     header('Location: ./index.php');
-    //     exit;
-    // } elseif ($post['action'] == 'complete') {
-    //     $db = new Users();
-    //     $db->todoItemIsComplete($dt, $post['item_id']);
-
-    //     header('Location: ./index.php');
-    //     exit;
-    // } elseif ($post['action'] == 'delete') {
-    //     $db = new Users();
-    //     $db->deleteTodoItem($post['item_id']);
-
-    //     header('Location: ./index.php');
-    //     exit;
-    // }
-
-    header('Location: ./index.php');
 } catch (Exception $e) {
     header('Location: ../error/error.php');
     exit;

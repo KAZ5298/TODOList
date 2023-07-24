@@ -49,7 +49,8 @@ try {
     <!-- ナビゲーション -->
     <nav class="navbar navbar-expand-md navbar-dark bg-primary">
         <span class="navbar-brand">TODOリスト</span>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
 
@@ -62,7 +63,8 @@ try {
                     <a class="nav-link" href="./entry.php">作業登録</a>
                 </li>
                 <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         <?= $user['family_name'] . $user['first_name'] . 'さん' ?>
                     </a>
                     <div class="dropdown-menu" aria-labelledby="navbarDropdown">
@@ -72,7 +74,8 @@ try {
                 </li>
             </ul>
             <form class="form-inline my-2 my-lg-0" action="./" method="get">
-                <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" name="search" value="">
+                <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" name="search"
+                    value="">
                 <button class="btn btn-outline-light my-2 my-sm-0" type="submit">検索</button>
             </form>
         </div>
@@ -96,26 +99,33 @@ try {
                 <form action="./action.php" method="post">
                     <input type="hidden" name="token" value="<?= $token ?>">
                     <div class="form-group">
-                        <input type="hidden" name="item_id" id="item_id" class="form-control" value="<?= $_POST['item_id'] ?>">
+                        <input type="hidden" name="item_id" id="item_id" class="form-control"
+                            value="<?= $_POST['item_id'] ?>">
                     </div>
                     <div class="form-group">
                         <label for="item_name">項目名</label>
-                        <p name="item_name" id="item_name" class="form-control"><?= $todoItem['item_name'] ?></p>
+                        <p name="item_name" id="item_name" class="form-control">
+                            <?= $todoItem['item_name'] ?>
+                        </p>
                     </div>
                     <div class="form-group">
                         <label for="user_id">担当者</label>
-                        <p name="user_id" id="user_id" class="form-control"><?= $todoItem['family_name'] . $todoItem['first_name'] ?></p>
+                        <p name="user_id" id="user_id" class="form-control">
+                            <?= $todoItem['family_name'] . $todoItem['first_name'] ?>
+                        </p>
                     </div>
                     <div class="form-group">
                         <label for="expire_date">期限</label>
-                        <p class="form-control" id="expire_date" name="expire_date"><?= $todoItem['expire_date'] ?></p>
+                        <p class="form-control" id="expire_date" name="expire_date">
+                            <?= $todoItem['expire_date'] ?>
+                        </p>
                     </div>
                     <div class="form-group form-check">
                         <input type="checkbox" class="form-check-input" id="finished" name="finished" <?php if (isset($todoItem['finished_date'])) {
-                                                                                                            echo 'checked disabled';
-                                                                                                        } else {
-                                                                                                            echo 'disabled';
-                                                                                                        } ?>>
+                            echo 'checked disabled';
+                        } else {
+                            echo 'disabled';
+                        } ?>>
                         <label for="finished">完了</label>
                     </div>
                     <button class="btn btn-danger" type="submit" name="action" value="delete">削除</button>
