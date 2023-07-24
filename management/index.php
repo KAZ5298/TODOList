@@ -2,7 +2,6 @@
 
 require_once('../App/Model/Base.php');
 require_once('../App/Model/Users.php');
-require_once('../App/Util/Common.php');
 require_once('../App/Util/Safety.php');
 
 unset($_SESSION['post']);
