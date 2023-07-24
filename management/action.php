@@ -88,29 +88,32 @@ try {
     // }
 
     // 登録・修正・完了・削除
-    if ($post['action'] == 'entry') {
-        $db = new Users();
-        $db->insertUser($post['login_user'], $post['pass'], $post['family_name'], $post['first_name'], $post['is_admin'], $post['is_deleted']);
+    switch ($post['action']) {
+        case 'entry':
+            $db = new Users();
+            $db->insertUser($post['login_user'], $post['pass'], $post['family_name'], $post['first_name'], $post['is_admin'], $post['is_deleted']);
 
-        header('Location: ./index.php');
-        exit;
+            header('Location: ./index.php');
+            exit;
 
-    } elseif ($post['action'] == 'edit') {
-        $db = new Users();
-        $db->editUser($post['user_id'], $post['login_user'], $post['pass'], $post['family_name'], $post['first_name'], $post['is_admin'], $post['is_deleted']);
+        case 'edit':
+            $db = new Users();
+            $db->editUser($post['user_id'], $post['login_user'], $post['pass'], $post['family_name'], $post['first_name'], $post['is_admin'], $post['is_deleted']);
 
-        header('Location: ./index.php');
-        exit;
+            header('Location: ./index.php');
+            exit;
 
-    } elseif($post['action'] == 'delete') {
-        $db = new Users();
-        $db->deleteUser($post['user_id']);
+        case 'delete':
+            $db = new Users();
+            $db->deleteUser($post['user_id']);
 
-        header('Location: ./index.php');
-        exit;
-    } else {
-        header('Location: ./index.php');
-        exit;
+            header('Location: ./index.php');
+            exit;
+
+        default:
+            header('Location: ./index.php');
+            exit;
+
     }
 
 } catch (Exception $e) {
