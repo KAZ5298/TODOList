@@ -125,15 +125,15 @@ try {
                         <input type="text" name="first_name" id="first_name" class="form-control" value="<?= $users['first_name'] ?>">
                     </div>
                     <div class="form-group">
-                        <label for="is_admin">管理者権限</label>
-                        <input type="radio" name="is_admin" id="is_admin" class="form-control" value="1" <?php if($users['is_admin'] == 1) echo 'checked' ?>>
-                        <label for="finished">あり</label>
-                        <input type="radio" name="is_admin" id="is_admin" class="form-control" value="0" <?php if($users['is_admin'] == 0) echo 'checked' ?>>
-                        <label for="finished">なし</label>
+                        <label for="is_admin">管理者権限</label><br>
+                        <input type="radio" name="is_admin" id="is_admin" class="form-check-input-inline" value="1" <?php if ($users['is_admin'] == 1) echo 'checked' ?>>
+                        <label for="is_admin-inline">あり</label>
+                        <input type="radio" name="is_admin" id="is_admin" class="form-check-input-inline" value="0" <?php if ($users['is_admin'] == 0) echo 'checked' ?>>
+                        <label for="is_admin-inline">なし</label>
                     </div>
-                    <div class="form-group">
+                    <div class="form-group form-check">
                         <input type="checkbox" class="form-check-input" id="is_deleted" name="is_deleted" value="<?php if ($users['is_deleted'] == 1) echo '1' ?>" <?php if ($users['is_deleted'] == 1) echo 'checked' ?>>
-                        <label for="deleted">削除フラグ</label>
+                        <label for="is_deleted">削除フラグ</label>
                     </div>
                     <button class="btn btn-primary" type="submit" name="action" value="edit">更新</button>
                     <input type="button" value="キャンセル" class="btn btn-outline-primary" onclick="location.href='./';">

@@ -105,15 +105,15 @@ $token = Safety::generateToken();
                         <input type="text" name="first_name" id="first_name" class="form-control" value="">
                     </div>
                     <div class="form-group">
-                        <label for="is_admin">管理者権限</label>
-                        <input type="radio" name="is_admin" id="is_admin" class="form-control" value="1">
-                        <label for="finished">あり</label>
-                        <input type="radio" name="is_admin" id="is_admin" class="form-control" value="0">
-                        <label for="finished">なし</label>
+                        <label for="is_admin">管理者権限</label><br>
+                        <input type="radio" name="is_admin" id="is_admin" class="form-check-input-inline" value="1">
+                        <label class="is_admin-inline" for="is_admin">あり</label>
+                        <input type="radio" name="is_admin" id="is_admin" class="form-check-input-inline" value="0">
+                        <label class="is_admin-inline" for="is_admin">なし</label>
                     </div>
-                    <div class="form-group">
+                    <div class="form-group form-check">
                         <input type="checkbox" class="form-check-input" id="is_deleted" name="is_deleted" value="1">
-                        <label for="deleted">削除フラグ</label>
+                        <label for="is_deleted">削除フラグ</label>
                     </div>
                     <button class="btn btn-primary" type="submit" name="action" value="entry">登録</button>
                     <input type="button" value="キャンセル" class="btn btn-outline-primary" onclick="location.href='./';">
