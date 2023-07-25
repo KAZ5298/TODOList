@@ -32,7 +32,7 @@ class Validation
 
     }
 
-    public static function stringLengthCheck(string $item_name)
+    public static function strLenChk(string $item_name)
     {
         if (strlen($item_name) > 100) {
             return false;

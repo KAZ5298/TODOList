@@ -55,7 +55,7 @@ try {
     //     }
     // }
 
-    if (!Validation::stringLengthCheck($post['item_name'])) {
+    if (!Validation::strLenChk($post['item_name'])) {
         $_SESSION['err_msg'] = '項目名は１００文字以下で登録してください。';
         header("Location: ${url}");
         exit;
