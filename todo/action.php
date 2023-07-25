@@ -23,7 +23,7 @@ if (empty($_SESSION['user'])) {
     $user = $_SESSION['user'];
 }
 
-$_SESSION['action'] = $post['action'];
+$url = $_SERVER['HTTP_REFERER'];
 
 try {
     // 現在日付取得
@@ -40,7 +40,7 @@ try {
 
     if (!Validation::userNullCheck($post['user_id'])) {
         $_SESSION['err_msg'] = '担当者を選択してください。';
-        header('Location:' . $_SERVER['HTTP_REFERER']);
+        header("Location: ${url}");
         exit;
     }
 
@@ -57,20 +57,15 @@ try {
 
     if (!Validation::stringLengthCheck($post['item_name'])) {
         $_SESSION['err_msg'] = '項目名は１００文字以下で登録してください。';
-        header('Location:' . $_SERVER['HTTP_REFERER']);
+        header("Location: ${url}");
         exit;
     }
 
-    // if (empty($post['item_name'])) {
-    //     $_SESSION['err_msg'] = '項目名が空白です。';
-    //     if ($post['action'] == 'entry') {
-    //         header('Location: ./entry.php');
-    //         exit;
-    //     } elseif ($post['action'] == 'edit') {
-    //         header('Location: ./edit.php');
-    //         exit;
-    //     }
-    // }
+    if (empty($post['item_name'])) {
+        $_SESSION['err_msg'] = '項目名が空白です。';
+        header("Location: ${url}");
+        exit;
+    }
 
     // if (strlen($post['item_name']) > 100) {
     //     $_SESSION['err_msg'] = '項目名は１００文字以下で登録してください。';
@@ -83,42 +78,38 @@ try {
     //     }
     // }
 
+    // 登録・修正の共通処理
+    if (isset($post['finished'])) {
+        $finished_date = $dt;
+    } else {
+        $finished_date = "";
+    }
+
+
     // 登録・修正・完了・削除
     switch ($post['action']) {
-        // 登録
+            // 登録
         case 'entry':
-            if (isset($post['finished'])) {
-                $finished_date = $dt;
-            } else {
-                $finished_date = "";
-            }
-
             $db = new TodoItems();
             $db->insertTodoItem($post['user_id'], $post['item_name'], $dt, $post['expire_date'], $finished_date);
 
             header('Location: ./index.php');
             exit;
-        // 修正
+            // 修正
         case 'edit':
-            if (isset($post['finished'])) {
-                $finished_date = $dt;
-            } else {
-                $finished_date = "";
-            }
-
             $db = new TodoItems();
             $db->editTodoItem($post['item_id'], $post['user_id'], $post['item_name'], $post['expire_date'], $finished_date);
 
             header('Location: ./index.php');
             exit;
-        // 削除
+            // 削除
         case 'delete':
             $db = new TodoItems();
             $db->deleteTodoItem($post['item_id']);
 
             header('Location: ./index.php');
             exit;
-        // 完了
+            // 完了
         case 'complete':
             $db = new TodoItems();
             $db->todoItemIsComplete($dt, $post['item_id']);
@@ -129,9 +120,7 @@ try {
         default:
             header('Location: ./index.php');
             exit;
-
     }
-
 } catch (Exception $e) {
     header('Location: ../error/error.php');
     exit;

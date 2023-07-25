@@ -93,17 +93,9 @@ class TodoItems extends Base
     public function insertTodoItem(int $user_id, string $item_name, string $registration_date, string $expire_date, string $finished_date)
     {
         $sql = 'INSERT INTO todo_items(';
-        $sql .= 'user_id,';
-        $sql .= 'item_name,';
-        $sql .= 'registration_date,';
-        $sql .= 'expire_date,';
-        $sql .= 'finished_date';
+        $sql .= 'user_id, item_name, registration_date, expire_date, finished_date';
         $sql .= ') values (';
-        $sql .= ':user_id,';
-        $sql .= ':item_name,';
-        $sql .= ':registration_date,';
-        $sql .= ':expire_date,';
-        $sql .= ':finished_date';
+        $sql .= ':user_id, :item_name, :registration_date, :expire_date, :finished_date';
         $sql .= ')';
         $stmt = $this->dbh->prepare($sql);
         $stmt->bindValue(':user_id', $user_id, PDO::PARAM_INT);

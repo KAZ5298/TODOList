@@ -12,7 +12,7 @@ class Validation
 
     public static function itemNullCheck(string $item_name)
     {
-        if (!isset($item_name)) {
+        if (empty($item_name)) {
             return false;
         }
         return true;
