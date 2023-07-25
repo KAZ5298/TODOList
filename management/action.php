@@ -82,6 +82,13 @@ try {
             exit;
         }
 
+        // パスワードチェック　半角英数字大文字小文字含む８文字以上５０文字以下
+        if (!Validation::passChk($post['pass'])) {
+            $_SESSION['err_msg'] = 'パスワードは半角英数大文字小文字含む８文字以上５０文字以下で入力してください。';
+            header("Location: ${url}", true, 307);
+            exit;
+        }
+
     }
 
     // 登録・修正・削除

@@ -47,4 +47,12 @@ class Validation
         }
         return true;
     }
+
+    public static function passChk($password)
+    {
+        if (!preg_match('/\A(?=.*?[a-z])(?=.*?[A-Z])(?=.*?\d)[a-zA-Z\d]{8,50}+\z/', $password)) {
+            return false;
+        }
+        return true;
+    }
 }
