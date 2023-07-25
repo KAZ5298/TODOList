@@ -199,7 +199,7 @@ try {
                                 未
                             <?php endif ?>
                         <td class="align-middle button">
-                            <form action="./complete.php" method="post" class="my-sm-1">
+                            <form action="./action.php" method="post" class="my-sm-1">
                                 <input type="hidden" name="token" value="<?= $token ?>">
                                 <input type="hidden" name="item_id" value="<?= $value['todo_id'] ?>">
                                 <button class="btn btn-primary my-0" type="submit" name="action"
