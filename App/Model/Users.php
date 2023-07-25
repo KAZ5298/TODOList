@@ -33,7 +33,7 @@ class Users extends Base
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
 
-    public function insertUser($login_user, $pass, $family_name, $first_name, $is_admin, bool $delete_flg)
+    public function insertUser($login_user, $pass, $family_name, $first_name, $is_admin, $delete_flg)
     {
         if (isset($delete_flg)) {
             $is_deleted = 1;
@@ -94,5 +94,4 @@ class Users extends Base
         $stmt->bindValue(':id', $user_id, PDO::PARAM_INT);
         $stmt->execute();
     }
-
 }

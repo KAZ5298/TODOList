@@ -87,22 +87,23 @@ try {
     //     }
     // }
 
-    // 登録・修正・完了・削除
+    // 登録・修正・削除
     switch ($post['action']) {
+            // 登録
         case 'entry':
             $db = new Users();
             $db->insertUser($post['login_user'], $post['pass'], $post['family_name'], $post['first_name'], $post['is_admin'], $post['is_deleted']);
 
             header('Location: ./index.php');
             exit;
-
+            // 修正
         case 'edit':
             $db = new Users();
             $db->editUser($post['user_id'], $post['login_user'], $post['pass'], $post['family_name'], $post['first_name'], $post['is_admin'], $post['is_deleted']);
 
             header('Location: ./index.php');
             exit;
-
+            // 削除
         case 'delete':
             $db = new Users();
             $db->deleteUser($post['user_id']);
@@ -113,9 +114,7 @@ try {
         default:
             header('Location: ./index.php');
             exit;
-
     }
-
 } catch (Exception $e) {
     header('Location: ../error/error.php');
     exit;
