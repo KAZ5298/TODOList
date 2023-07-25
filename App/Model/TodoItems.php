@@ -20,7 +20,7 @@ class TodoItems extends Base
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    public function selectByItemId(int $item_id)
+    public function selectByItemId($item_id)
     {
         $sql = 'SELECT ';
         $sql .= 't.id AS todo_id, t.user_id, t.item_name, t.registration_date, t.expire_date, t.finished_date, t.is_deleted, ';

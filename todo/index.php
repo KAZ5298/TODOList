@@ -206,12 +206,10 @@ try {
                                     value="complete">完了</button>
                             </form>
                             <form action="./edit.php" method="post" class="my-sm-1">
-                                <input type="hidden" name="token" value="<?= $token ?>">
                                 <input type="hidden" name="item_id" value="<?= $value['todo_id'] ?>">
                                 <input class="btn btn-primary my-0" type="submit" value="修正">
                             </form>
                             <form action="./delete.php" method="post" class="my-sm-1">
-                                <input type="hidden" name="token" value="<?= $token ?>">
                                 <input type="hidden" name="item_id" value="<?= $value['todo_id'] ?>">
                                 <input class="btn btn-primary my-0" type="submit" value="削除">
                             </form>
