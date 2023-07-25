@@ -30,24 +30,27 @@ try {
     $db = new Common();
     $dt = $db->getDate();
 
-    // バリデーションチェック
+    // バリデーションチェック（登録・削除のみ）
 
-    if (!Validation::userNullCheck($post['user_id'])) {
-        $_SESSION['err_msg'] = '担当者を選択してください。';
-        header("Location: ${url}", true, 307);
-        exit;
-    }
+    if ($post['action'] == 'entry' || $post['action'] == 'edit') {
 
-    if (!Validation::itemNullCheck($post['item_name'])) {
-        $_SESSION['err_msg'] = '項目名が空白です。';
-        header("Location: ${url}", true, 307);
-        exit;
-    }
+        if (!Validation::userNullCheck($post['user_id'])) {
+            $_SESSION['err_msg'] = '担当者を選択してください。';
+            header("Location: ${url}", true, 307);
+            exit;
+        }
 
-    if (!Validation::strLenChk($post['item_name'])) {
-        $_SESSION['err_msg'] = '項目名は１００文字以下で登録してください。';
-        header("Location: ${url}", true, 307);
-        exit;
+        if (!Validation::itemNullCheck($post['item_name'])) {
+            $_SESSION['err_msg'] = '項目名が空白です。';
+            header("Location: ${url}", true, 307);
+            exit;
+        }
+
+        if (!Validation::strLenChk($post['item_name'])) {
+            $_SESSION['err_msg'] = '項目名は１００文字以下で登録してください。';
+            header("Location: ${url}", true, 307);
+            exit;
+        }
     }
 
     // 登録・修正の共通処理
