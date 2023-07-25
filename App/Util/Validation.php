@@ -39,4 +39,12 @@ class Validation
         }
         return true;
     }
+
+    public static function userLenChk($item_len)
+    {
+        if (strlen($item_len) > 50) {
+            return false;
+        }
+        return true;
+    }
 }

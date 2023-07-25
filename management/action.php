@@ -60,17 +60,28 @@ try {
             exit;
         }
 
-        // if (!Validation::itemNullCheck($post['item_name'])) {
-        //     $_SESSION['err_msg'] = '項目名が空白です。';
-        //     header("Location: ${url}", true, 307);
-        //     exit;
-        // }
+        // 文字数チェック
+        // ログインユーザー
+        if (!Validation::userLenChk($post['login_user'])) {
+            $_SESSION['err_msg'] = 'ログインユーザー名は５０文字以下で入力してください。';
+            header("Location: ${url}", true, 307);
+            exit;
+        }
 
-        // if (!Validation::strLenChk($post['item_name'])) {
-        //     $_SESSION['err_msg'] = '項目名は１００文字以下で登録してください。';
-        //     header("Location: ${url}", true, 307);
-        //     exit;
-        // }
+        // ユーザー姓
+        if (!Validation::userLenChk($post['family_name'])) {
+            $_SESSION['err_msg'] = 'ユーザー姓は５０文字以下で入力してください。';
+            header("Location: ${url}", true, 307);
+            exit;
+        }
+
+        // ユーザー名
+        if (!Validation::userLenChk($post['first_name'])) {
+            $_SESSION['err_msg'] = 'ユーザー名は５０文字以下で入力してください。';
+            header("Location: ${url}", true, 307);
+            exit;
+        }
+
     }
 
     // 登録・修正・削除
