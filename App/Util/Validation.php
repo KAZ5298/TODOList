@@ -10,7 +10,7 @@ class Validation
         return true;
     }
 
-    public static function itemNullCheck(string $item_name)
+    public static function itemNullCheck($item_name)
     {
         if (empty($item_name)) {
             return false;

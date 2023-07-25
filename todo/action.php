@@ -30,7 +30,7 @@ try {
     $db = new Common();
     $dt = $db->getDate();
 
-    // バリデーションチェック（登録・削除のみ）
+    // バリデーションチェック（登録・修正のみ）
 
     if ($post['action'] == 'entry' || $post['action'] == 'edit') {
 

@@ -23,69 +23,55 @@ if (empty($_SESSION['user'])) {
     $user = $_SESSION['user'];
 }
 
+$url = $_SERVER['HTTP_REFERER'];
+
 try {
-    // バリデーションチェック
 
-    // if (empty($post['user_id'])) {
-    //     $_SESSION['err_msg'] = '担当者を選択してください。';
-    //     if ($post['action'] == 'entry') {
-    //         header('Location: ./entry.php');
-    //         exit;
-    //     } elseif ($post['action'] == 'edit') {
-    //         header('Location: ./edit.php');
-    //         exit;
-    //     }
-    // }
+    // バリデーションチェック（登録・修正のみ）
 
-    // // if (!Validation::userNullCheck($post['user_id'])) {
-    // //     $_SESSION['err_msg'] = '担当者を選択してください。';
-    // //     header('Location: ./entry.php');
-    // //     exit;
-    // // }
+    if ($post['action'] == 'entry' || $post['action'] == 'edit') {
 
-    // // if (!Validation::itemNullCheck($post['item_name'])) {
-    // //     $_SESSION['err_msg'] = '項目名が空白です。';
-    // //     if ($post['action'] == 'entry') {
-    // //         header('Location: ./entry.php');
-    // //         exit;
-    // //     } elseif ($post['action'] == 'edit') {
-    // //         header('Location: ./edit.php');
-    // //         exit;
-    // //     }
-    // // }
+        // 空白チェック
+        // ログインユーザー
+        if (!Validation::itemNullCheck($post['login_user'])) {
+            $_SESSION['err_msg'] = 'ログインユーザー名が空白です。';
+            header("Location: ${url}", true, 307);
+            exit;
+        }
 
-    // // if (!Validation::lengthCheck($post['item_name'])) {
-    // //     $_SESSION['err_msg'] = '項目名は１００文字以下で登録してください。';
-    // //     if ($post['action'] == 'entry') {
-    // //         header('Location: ./entry.php');
-    // //         exit;
-    // //     } elseif ($post['action'] == 'edit') {
-    // //         header('Location: ./edit.php');
-    // //         exit;
-    // //     }
-    // // }
+        // パスワード
+        if (!Validation::itemNullCheck($post['pass'])) {
+            $_SESSION['err_msg'] = 'パスワードが空白です。';
+            header("Location: ${url}", true, 307);
+            exit;
+        }
 
-    // if (empty($post['item_name'])) {
-    //     $_SESSION['err_msg'] = '項目名が空白です。';
-    //     if ($post['action'] == 'entry') {
-    //         header('Location: ./entry.php');
-    //         exit;
-    //     } elseif ($post['action'] == 'edit') {
-    //         header('Location: ./edit.php');
-    //         exit;
-    //     }
-    // }
+        // ユーザー姓
+        if (!Validation::itemNullCheck($post['family_name'])) {
+            $_SESSION['err_msg'] = 'ユーザー姓が空白です。';
+            header("Location: ${url}", true, 307);
+            exit;
+        }
 
-    // if (strlen($post['item_name']) > 100) {
-    //     $_SESSION['err_msg'] = '項目名は１００文字以下で登録してください。';
-    //     if ($post['action'] == 'entry') {
-    //         header('Location: ./entry.php');
-    //         exit;
-    //     } elseif ($post['action'] == 'edit') {
-    //         header('Location: ./edit.php');
-    //         exit;
-    //     }
-    // }
+        // ユーザー名
+        if (!Validation::itemNullCheck($post['first_name'])) {
+            $_SESSION['err_msg'] = 'ユーザー名が空白です。';
+            header("Location: ${url}", true, 307);
+            exit;
+        }
+
+        // if (!Validation::itemNullCheck($post['item_name'])) {
+        //     $_SESSION['err_msg'] = '項目名が空白です。';
+        //     header("Location: ${url}", true, 307);
+        //     exit;
+        // }
+
+        // if (!Validation::strLenChk($post['item_name'])) {
+        //     $_SESSION['err_msg'] = '項目名は１００文字以下で登録してください。';
+        //     header("Location: ${url}", true, 307);
+        //     exit;
+        // }
+    }
 
     // 登録・修正・削除
     switch ($post['action']) {

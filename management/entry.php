@@ -108,7 +108,7 @@ $token = Safety::generateToken();
                         <label for="is_admin">管理者権限</label><br>
                         <input type="radio" name="is_admin" id="is_admin" class="form-check-input-inline" value="1">
                         <label class="is_admin-inline" for="is_admin">あり</label>
-                        <input type="radio" name="is_admin" id="is_admin" class="form-check-input-inline" value="0">
+                        <input type="radio" name="is_admin" id="is_admin" class="form-check-input-inline" value="0" checked>
                         <label class="is_admin-inline" for="is_admin">なし</label>
                     </div>
                     <div class="form-group form-check">
