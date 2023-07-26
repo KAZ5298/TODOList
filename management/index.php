@@ -66,8 +66,7 @@ try {
     <!-- ナビゲーション -->
     <nav class="navbar navbar-expand-md navbar-dark bg-primary">
         <span class="navbar-brand">TODOリスト</span>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
-            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
 
@@ -83,8 +82,7 @@ try {
                     <a class="nav-link" href="./entry.php">ユーザー登録</a>
                 </li>
                 <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
-                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         <?= $user['family_name'] . $user['first_name'] . 'さん' ?>
                     </a>
                     <div class="dropdown-menu" aria-labelledby="navbarDropdown">
@@ -113,7 +111,7 @@ try {
             </thead>
 
             <tbody>
-                <?php foreach ($users as $value): ?>
+                <?php foreach ($users as $value) : ?>
                     <tr>
                         <td class="align-middle">
                             <?= $value['user'] ?>
@@ -125,17 +123,13 @@ try {
                             <?= $value['first_name'] ?>
                         </td>
                         <td class="align-middle">
-                            <?php if ($value['is_admin'] == 1): ?>
+                            <?php if ($value['is_admin'] == 1) : ?>
                                 あり
-                            <?php else: ?>
-                                なし
                             <?php endif ?>
                         </td>
                         <td class="align-middle">
-                            <?php if ($value['is_deleted'] == 1): ?>
+                            <?php if ($value['is_deleted'] == 1) : ?>
                                 済
-                            <?php else: ?>
-                                未
                             <?php endif ?>
                         </td>
                         <td class="align-middle button">
