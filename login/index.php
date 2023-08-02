@@ -49,11 +49,9 @@ $token = Safety::generateToken();
                     <input type="hidden" name="token" value="<?= $token ?>">
                     <div class="form-group">
                         <label for="user">ユーザー名</label>
-                        <input type="text" class="form-control" id="user" name="user" value="<?php if (isset($_SESSION['user'])) {
-                                                                                                    echo $_SESSION['user'];
-                                                                                                } ?>">
+                        <input type="text" class="form-control" id="user" name="user" value="<?php isset($_SESSION['user']) ? $_SESSION['user'] : '' ?>">
                     </div>
-                    <div class="form-group">
+                    <div class=" form-group">
                         <label for="password">パスワード</label>
                         <input type="password" class="form-control" id="password" name="password">
                     </div>
